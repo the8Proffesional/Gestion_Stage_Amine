@@ -1,0 +1,68 @@
+{% extends 'manager/base.html' %} {% block content %}
+{% load static %}
+<div class="form container">
+  <h3>Liste Dossiers Etudient</h3>
+  <h4>Etudiant : {{ first_name }} {{ last_name }} </h4>
+  <h5>CIN : {{ user_name }} </h5>
+    
+  {% if dossiers %}
+  <table class="table table-warning table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+        <th scope="col">Sujet</th>
+        <th scope="col">Encadrant</th>
+        <th scope="col">Domaine</th>
+        <th scope="col">Validation Prof</th>
+        <th scope="col">Operations</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for dossier in dossiers %}
+      <tr>
+        <td>{{ dossier.get_Type_display }}</td>
+        <td>{{ dossier.Sujet }}</td>
+        <td>{{ dossier.Encadrant }}</td>
+        
+        <td>{{ dossier.Domaine }}</td>
+        <td>
+          {% if dossier.ValidationProf %}
+                <h5 class="text-success h-2">Validé</h5>
+          {% else %}
+                
+                {% if dossier.RemarqueProf == '' or  dossier.RemarqueProf is None%}
+                    <h5 class="text-danger">Pas de Remarque</h5>
+                {% else %}
+                <h5 class="text-danger">{{ dossier.RemarqueProf }}</h5>
+                {% endif %}
+          {% endif %}
+        </td>
+        <td class="d-flex justify-content-center">
+          <a class="m-1" href="{% url 'afficherdossier' dossier.pk %}">
+            <img src="{% static 'icons/folder-open-solid.svg' %}" alt="Show" width="24">
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+
+      <script>
+        function confirmDelete() {
+          if (confirm("Êtes-vous sûr de vouloir supprimer cet objet ?")) {
+            document.getElementById("deleteForm").submit();
+          }
+        }
+      </script>
+
+
+    </tbody>
+  </table>
+
+  {% else %}
+  <h3>Aucun Dossier</h3>
+  {% endif %}
+  <div class="d-grid gap-2">
+    <a class="btn btn-success mt-2" href="{% url 'etudiantsFil' niveau nom_filier annee %}">Retour</a>
+  </div>
+</div>
+
+{% endblock content %}

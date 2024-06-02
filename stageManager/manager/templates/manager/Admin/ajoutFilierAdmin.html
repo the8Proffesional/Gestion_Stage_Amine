@@ -1,0 +1,25 @@
+{% extends 'manager/base.html' %} 
+{% load static %}
+{% block content %}
+<div class="form container">
+    <h3> Modification du dossier</h3>
+    <form action="{% url 'ajoutFilierAdmin' %}" method="POST">
+    {% csrf_token %}
+    <div class="mb-3 row">
+        <label for="nomFil" class="col-sm-2 col-form-label">Nom Filiere</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="nomFil" name="nomFil"/>
+        </div>
+    </div>
+
+
+     
+          
+    
+    <div class="d-grid gap-2">
+        <button class="btn btn-primary" type="submit">Ajouter</button>
+    </div>
+    </form>
+</div>
+
+{% endblock content %}

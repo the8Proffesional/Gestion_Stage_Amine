@@ -1,0 +1,50 @@
+{% extends 'manager/base.html' %} 
+{% load static %}
+{% block content %}
+
+<div class="form container">
+  <h4>Professeur : {{ first_name }} {{ last_name }}</h4>
+  <h5>CIN : {{ user_name }}</h5>
+  <h3>Etudiants Pour : {{ niveau }} -- {{ filiere }}</h3>
+  <ul class="list-group">
+  {% if etudiants %}
+  <table class="table table-warning table-striped">
+    <thead>
+      <tr>
+        <th scope="col">CIN</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Prénom</th>
+        <th scope="col">Contact</th>
+        <th class="d-flex justify-content-center" scope="col">Operations</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for etudiant in etudiants %}
+      <tr>
+        <td>{{etudiant.username}}</td>
+        <td>{{etudiant.last_name}}</td> 
+        <td>{{etudiant.first_name}}</td>
+        <td>{{etudiant.tel}} <a class="mx-1" href="whatsapp://send?phone=212{{etudiant.tel}}"> <img src="{% static 'icons/square-whatsapp.svg' %}" alt="Show" width="30"></a></td>
+        <td class="d-flex justify-content-center">
+          <a class="m-1" href="{% url 'homeProf' niveau filiere annee etudiant.username  %}">
+            <img src="{% static 'icons/folder-tree-solid.svg' %}" alt="Show" width="30">
+          </a>
+        </td>
+      </tr>
+    
+   {%endfor%}
+  </tbody>
+</table>
+  {% else  %}
+  <li class="list-group-item">
+    <h4 class="text-primary">Pas d'Etudiants'</h4>
+   </li>
+  {%endif%}
+  </ul>
+  <div class="mb-3 row">
+  <div class="col-sm-12">
+    <a class="text-center text-decoration-none form-control btn-success mt-2" href="{% url 'filiereProf' %}">Retour</a>
+  </div>
+</div>
+</div>
+{% endblock content %}

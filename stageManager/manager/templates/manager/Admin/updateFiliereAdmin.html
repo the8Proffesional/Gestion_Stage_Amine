@@ -1,0 +1,109 @@
+{% extends 'manager/base.html' %} 
+{% load static %}
+{% block content %}
+<div class="form container">
+    <h3>Modification de la filière</h3>
+    <form id="myForm" action="{% url 'updateFiliere' pk=filiere.pk %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="form_type" value="form2">
+      <div class="mb-3 row">
+        <label for="Annee" class="col-sm-2 col-form-label">Anneé Universitaire</label>
+        <div class="col-sm-8">
+          <input type="number" class="form-control bg-warning" id="Annee" value="{{ Annee }}" name="Annee" />  
+        </div>
+         <div  class="col-sm-2">
+          <button class=" form-control btn btn-info" type="submit">Filtrer</button>
+        </div>
+      </div>
+      </form>
+  
+      
+
+
+    <form  action="{% url 'updateFiliere' pk=filiere.pk %}" method="POST">
+    {% csrf_token %}
+
+    <input type="hidden" name="form_type" value="form1">
+    <div class="mb-3 row">
+        <label for="nomFil" class="col-sm-2 col-form-label">Nom Filiere</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="nomFil" name="nomFil" value="{{ filiere.Nom_filiere }}" />
+        </div>
+    </div>
+    <div class="d-grid gap-2  my-2">
+      <button class="btn btn-primary" type="submit">Enregistrer</button>
+    </div>
+    </form>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="d-flex justify-content-between alert alert-danger" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+
+    
+
+    
+
+    {% if Sessions %}
+    <h3>Liste des Session de la filière {{ filiere.Nom_filiere }}  {{ Annee }} </h3>
+    <table class="table table-info table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Professeur</th>
+            <th scope="col">CINE</th>
+            <th scope="col">Niveau</th>
+            <th scope="col">Année Universitaire</th>
+            <th class="d-flex justify-content-center" scope="col">Operations</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for session in Sessions %}
+          <tr>
+            <td>{{ session.prof.last_name }} {{ session.prof.first_name }}</td>
+            <td>{{ session.prof.username }}</td>
+            <td>{{ session.Niveau }}</td>
+            <td>{{ session.Annee.year }}</td>
+            <td class="d-flex justify-content-center align-items-center">
+              <a class="mx-2" href="{% url 'listEtudiants' session.Niveau filiere.Nom_filiere session.Annee.year session.prof.username  %}">
+                <img src="{% static 'icons/users-solid.svg' %}" alt="Show" width="24">
+              </a>
+              <a class="mx-2" href="{% url 'updateSession' session.Niveau session.filiere.Nom_filiere session.Annee.year  session.prof.username %}">
+                <img src="{% static 'icons/pen-solid.png' %}" alt="Show" width="24">
+              </a>
+              
+
+              <form action="{% url 'deleteSession' session.id %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-outline" type="submit" onclick="confirmDeletion(event, '{{ session.id }}')">
+                  <img src="{% static 'icons/trash-solid.png' %}" alt="delete" width="20">
+                </button>
+              </form>
+
+            </td>
+          </tr>
+    
+          {% endfor %}
+    
+    
+    
+        </tbody>
+      </table>
+      {% else %}
+      <h3>Pas de session pour la filière {{ filiere.Nom_filiere }}  {{ Annee }}</h3>
+      {% endif %}
+    <div class="d-grid gap-2 my-2">
+        <a href="{% url 'newfiliereAdmin' filiere.pk %}" class="btn btn-primary">Ajouter Session</a>
+    </div>
+    
+   
+    <div class="d-grid gap-2 my-2">
+      <a class="btn btn-success" href="{% url 'filiereAdmin' %}" >Retour</a>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,78 @@
+{% extends 'manager/base.html' %} {% block content %}
+<div class="form container">
+  <h3>Nouveau dossier</h3>
+  <form action="{% url 'newdossier' niveau nom_filier year cin %}" method="POST">
+    {% csrf_token %}
+    <div class="mb-3 row">
+      <label for="Rapport" class="col-sm-2 col-form-label">Types</label>
+      <div class="col-sm-10">
+        <select class="form-select" name="Type">
+          {% for choice in TypesStage %}
+            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="Rapport" class="col-sm-2 col-form-label">Lien Rapport</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="Rapport" name="Rapport" />
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="Dossier" class="col-sm-2 col-form-label">Lien Dossier</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="Dossier" name="Dossier" />
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="Sujet" class="col-sm-2 col-form-label">Sujet</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="Sujet" name="Sujet" />
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="Rapport" class="col-sm-2 col-form-label">Encadrant</label>
+      <div class="col-sm-10">
+        <select class="form-select" name="Encadrant">
+          {% for prof in profs %}
+            <option value="{{  prof.first_name }} {{  prof.last_name }}">{{  prof.first_name }} {{  prof.last_name }}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="Rapport" class="col-sm-2 col-form-label">Domaine</label>
+      <div class="col-sm-10">
+        <select class="form-select" name="Domaine">
+          {% for Domain in domaines %}
+            <option value="{{  Domain.NomDomaine }}">{{  Domain.NomDomaine }}</option>
+        {% endfor %}
+        </select>
+      </div>
+    </div>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="d-flex justify-content-between alert alert-danger" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="d-grid gap-2">
+      <button class="btn btn-primary" type="submit">
+        Enregistrer le dossier
+      </button>
+    </div>
+    <div class="d-grid gap-2">
+      <a class="btn btn-success mt-2" href="{% url 'home' niveau nom_filier year None %}">Retour</a>
+    </div>
+  </form>
+</div>
+{% endblock content %}

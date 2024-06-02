@@ -1,0 +1,61 @@
+{% extends 'manager/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="form container">
+  <h3 class="text-light bg-danger p-2">Espace Admin</h3>
+
+  
+  {% if messages %}
+  {% for message in messages %}
+  <div class="d-flex justify-content-between alert alert-danger my-2" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  <h3>Liste filieres</h3>
+  <ul class="list-group">
+    {% if filieres %}
+    {% for Filier in filieres %}
+    <li class="d-flex justify-content-between list-group-item">
+      
+      <div>{{ Filier.filiere.Nom_filiere }}</div>
+      <!-- Modification Suppression -->
+      <div class="d-flex justify-content-center align-items-center ">
+      <div class="mx-1">
+        <a class="mx-2 position-relative btn btn-primary" href="{% url 'updateFiliere' Filier.filiere.pk %}">
+          <!-- <img src="{% static 'icons/eye-solid.png' %}" alt="edit" width="24"> -->
+          Session >>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{Filier.number}}
+          </span>
+        </a>
+      </div>
+      <form action="{% url 'deleteFiliere' Filier.filiere.pk %}" method="post">
+        {% csrf_token %}
+        <button class="mx-1 btn btn-outline "  type="submit" onclick="confirmDeletion(event, '{{ Filier.filiere.pk }}')">
+          <img src="{% static 'icons/trash-solid.png' %}" alt="edit" width="20">
+        </button>
+      </form>
+    </div>
+    </li>
+
+    {%endfor%}
+
+    {% else %}
+    <li class="list-group-item">
+      <h4 class="text-primary">Pas de Filières</h4>
+    </li>
+    {%endif%}
+  </ul>
+  <div class="d-grid gap-2 mt-2">
+    <a href="{% url 'listProfs' %}" class="btn btn-primary">Professeurs</a>
+  </div>
+  <!-- Ajout -->
+  <div class="d-grid gap-2 mt-2">
+    <a href="{% url 'ajoutFilierAdmin' %}" class="btn btn-primary">Ajouter Filiere</a>
+  </div>
+</div>
+
+{% endblock content %}

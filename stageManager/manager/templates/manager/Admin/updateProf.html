@@ -1,0 +1,86 @@
+{% extends 'manager/base.html' %} {% block content %}
+<div class="form container">
+  <h3>Professeur</h3>
+  {% if messages %}
+    {% for message in messages  %}
+    <div class="d-flex justify-content-between alert alert-danger" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+  
+  <form action="{% url 'updateProf' prof.pk %}" method="post">
+    {% csrf_token %}
+
+    <div class="mb-3 row">
+      <label for="CIN" class="col-sm-2 col-form-label">CINE</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="CIN" name="CIN" value="{{ prof.username }}"  />
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="Nom" class="col-sm-2 col-form-label">Nom de famille</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="Nom" name="Nom" value="{{ prof.last_name }}"  />
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="Prenom" class="col-sm-2 col-form-label">Prénom</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="prenom" name="prenom" value="{{ prof.first_name  }}"  />
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="adresse" class="col-sm-2 col-form-label">Adresse</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" id="adresse" rows="3" name="adresse" value="" >{{ prof.adresse }}</textarea>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="tel" class="col-sm-2 col-form-label" >Téléphone</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="tel" name="tel" value="{{ prof.tel }}"  />
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="DateN" class="col-sm-2 col-form-label">Date de naissance</label>
+      <div class="col-sm-10">
+        <input type="date" class="form-control" id="DateN" name="DateN" value="{{ prof.dateN|date:'Y-m-d' }}"/>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="LieuxN" class="col-sm-2 col-form-label">Lieux de naissance</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="LieuxN" name="LieuxN" value="{{ prof.lieuxN }}"  />
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+        <label for="LieuxN" class="col-sm-2 col-form-label">Spécialité</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="LieuxN" name="spc" value="{{ prof.SPC }}"  />
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <div class="col-12">
+        <button class="form-control btn btn-primary" type="submit">Enregistrer</button>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <div class="col-12">
+        <a class="form-control btn btn-primary" href="{% url 'listProfs' %}">Retour</a>
+        </div>
+      </div>
+
+  </form>
+</div>
+{% endblock content %}

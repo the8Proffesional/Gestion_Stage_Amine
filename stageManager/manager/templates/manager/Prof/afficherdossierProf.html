@@ -1,0 +1,121 @@
+{% extends 'manager/base.html' %} 
+
+{% block content %}
+<div class="form container">
+  {% if request.user.role == 'ETUDIANT' %}
+    <h3>Voici votre dossier</h3>
+  {% elif request.user.role == 'PROF' %}
+    <h3>Dossier de l'etudiant {{ Etudiant.username }}-{{ Etudiant.last_name }} {{ Etudiant.first_name }} </h3>
+  {% endif %}
+  <hr>
+      <div class="mb-3 row">
+        <label for="Type" class="col-sm-2 col-form-label">Type</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="Type" name="Type" value= "{{ dossier.get_Type_display }}" disabled/>
+        </div>
+      </div>
+     
+    <div class="mb-3 row">
+      
+      <label for="Rapport" class="col-sm-2 col-form-label">Lien Rapport</label>
+      
+      <div class="input-group col-sm-10">
+        <input type="text" class="form-control" id="Rapport" name="Rapport" value="{{ dossier.Rapport }}" disabled/>
+        <a class="btn btn-outline-success" type="button" href="#">Ouvrir</a>
+      </div>
+
+   
+    </div>
+
+    <div class="mb-3 row">
+
+      <label for="Dossier" class="col-sm-2 col-form-label">Lien Dossier</label>
+
+      <div class="input-group col-sm-10">
+        <input type="text" class="form-control" id="Dossier" name="Dossier" value="{{ dossier.Doss }}" disabled/>
+        <a class="btn btn-outline-success" type="button" href="#">Ouvrir</a>
+      </div>
+      
+    </div>
+
+    <div class="mb-3 row">
+      <label for="Sujet" class="col-sm-2 col-form-label">Sujet</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="Sujet" name="Sujet" value="{{ dossier.Sujet }}" disabled/>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="Encadrant" class="col-sm-2 col-form-label">Encadrant</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="Encadrant" name="Encadrant" value="{{ dossier.Encadrant }}" disabled />
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="Domaine" class="col-sm-2 col-form-label">Domaine</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="Domaine" name="Domaine" value="{{ dossier.Domaine }}" disabled />
+      </div>
+    </div>
+
+    <form action="{% url 'afficherdossier' dossier.pk %}" method="POST">
+    {% csrf_token %}
+
+    <div class="mb-3 row">
+      <label for="validationp" class="col-sm-2 col-form-label">Validation du prof</label>
+      <div class="col-sm-10">
+        <input class="form-check-input" id="chek1" type="checkbox" name="val" {% if checked %} checked  {% endif %} {% if request.user.role == "ETUDIANT" %} disabled {% endif %}>
+      </div>
+    </div>
+   
+    {% if not dossier.ValidationProf %} 
+    <div class="mb-3 row">
+      <label for="validationa" class="col-sm-2 col-form-label">Remarque du prof</label>
+      <div class="col-sm-10">
+        <input class="form-control" id="valifdationp" type="textfield" {% if dossier.RemarqueProf is None %} value=""  {% else %} value="{{ dossier.RemarqueProf }}"{% endif %} name="remarqProf" {% if request.user.role == "ETUDIANT" %} disabled {% endif %}>
+      </div>
+    </div>
+    {% endif %}
+    <script>
+      const checkInput = document.getElementById('chek1');
+      const textInput = document.getElementById('valifdationp');
+    
+      checkInput.addEventListener('change', function() {
+      if(this.checked) {
+          textInput.value = ''; 
+          textInput.style.display = 'none';
+      } 
+      else {
+          textInput.style.display = 'block';
+      }
+      });
+    </script>
+    <div class="mb-3 row">
+      <label for="validationa" class="col-sm-2 col-form-label">Validation d'admin</label>
+      <div class="col-sm-10">
+        <input class="form-check-input"  type="checkbox" {% if dossier.ValidationAdmin %} checked {% endif %}  disabled >
+      </div>
+    </div>
+
+    {% if not dossier.ValidationAdmin %} 
+    <div class="mb-3 row">
+      <label for="validationa" class="col-sm-2 col-form-label">Remarque d'admin</label>
+      <div class="col-sm-10">
+        <input class= "form-control" type="textfield" value="{{ dossier.RemarqueAdmin }}" {% if dossier.RemarqueAdmin is None %} value=""  {% else %} value="{{ dossier.RemarqueAdmin }}"{% endif %}  disabled>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if request.user.role == 'PROF' %}
+      <div class="d-grid gap-2">
+        <button class="btn btn-primary" type="submit">Enregistrer le dossier</a>
+      </div>
+    {% endif %}
+  </form>
+  <div class="my-2 d-grid gap-2">
+    <a class="btn btn-success mt-2" href="{% url 'homeProf' niveau nom_filier annee cin %}">Retour</a>
+  </div>
+</div>
+
+{% endblock content %}

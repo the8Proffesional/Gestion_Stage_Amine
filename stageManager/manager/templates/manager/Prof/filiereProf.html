@@ -1,0 +1,60 @@
+{% extends 'manager/base.html' %} 
+{% load static %}
+{% block content %}
+
+<div class="form container">
+  <h4>Professeur : {{ first_name }} {{ last_name }}</h4>
+  <h5>CIN : {{ user_name }}</h5>
+  <form id="myForm" action="#" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="form_type" value="form2">
+    <div class="mb-3 row">
+      <label for="Annee" class="col-sm-2 col-form-label">Anneé Universitaire</label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control bg-warning" id="Annee" value="{{ Annee }}" name="Annee" />  
+      </div>
+       <div  class="col-sm-2">
+        <button class=" form-control btn btn-info" type="submit">Filtrer</button>
+      </div>
+    </div>
+    </form>
+
+  <h3>Liste Filieres professeur</h3>
+ 
+  {% if Filieres %}
+  
+  <table class="table table-warning table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Niveau</th>
+        <th scope="col">Filière</th>
+        <th scope="col">Année universitaire</th>
+        <th class="d-flex justify-content-center" scope="col">Operations</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for Filier in Filieres %}
+      <tr>
+        <td>{{ Filier.Niveau }}</td>
+        <td>{{ Filier.filiere.Nom_filiere }}</td> 
+        <td>{{ Filier.Annee.year }}</td>
+        
+        <td class="d-flex justify-content-center">
+          <a class="mx-3" href="{%url 'etudiantsFil' Filier.Niveau Filier.filiere.Nom_filiere Filier.Annee.year %}">
+            <img src="{% static 'icons/users-solid.svg' %}" alt="Show" width="30">
+          </a>
+        </td>
+      </tr>
+   
+   {%endfor%}
+   </tbody>
+   </table>
+  {% else  %}
+  <li class="list-group-item">
+    <h4 class="text-primary">Pas de Sessions pour l'année {{ Annee }}</h4>
+   </li>
+  {%endif%}
+  </ul>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,77 @@
+{% extends 'manager/base.html' %} {% block content %}
+{% load static %}
+<div class="form container">
+  <h4>Etudiant : {{ first_name }} {{ last_name }} </h4>
+  <h5>CIN : {{ user_name }}</h5>
+  <h3>Liste des Sessions</h3>
+  {% if messages %}
+    {% for message in messages %}
+    <div class="d-flex justify-content-between alert alert-danger" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  {% endif %}
+
+{% if Filieres %}
+  <table class="table table-light table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Niveau</th>
+        <th scope="col">Filiere</th>
+        <th scope="col">Année</th>
+        <th class="d-flex justify-content-center" scope="col">Operations</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    {% for Filier in Filieres %}
+      <tr>
+        <td>{{ Filier.Niveau }}</td>
+        <td>{{ Filier.Filiere.Nom_filiere }}</td>
+        <td>{{ Filier.Year.year }}</td>
+
+        <td class="d-flex justify-content-center">
+          <a class="mx-2" href="{% url 'newdossier' Filier.Niveau Filier.Filiere.Nom_filiere Filier.Year.year user_name %}">
+            <img src="{% static 'icons/folder-plus-solid.svg' %}" alt="Add folder" width="30">
+          </a>
+          <a class="mx-2" href="{% url 'home' Filier.Niveau Filier.Filiere.Nom_filiere Filier.Year.year user_name %}">
+            <img src="{% static 'icons/folder-open-solid.svg' %}" alt="Show" width="24">
+          </a>
+
+          <form
+            method="post"
+            id="deleteForm"
+            action="{% url 'deleteFilier' Filier.Filiere.pk Filier.Niveau Filier.Year.year  %}">
+            {% csrf_token %}
+            <a class="mx-2" type="button" onclick="confirmDelete()"
+              ><img src="{% static 'icons/trash-solid.png' %}" alt="Show" width="24"></a>
+
+              <script>
+                function confirmDelete() {
+                  if (confirm("Êtes-vous sûr de vouloir supprimer cet objet ?")) {
+                      document.getElementById("deleteForm").submit();
+                  }
+                }
+              </script>
+          </form>  
+        </td>
+    </tr>
+
+    
+
+    {% endfor %}
+    </tbody>
+  </table>
+
+{% else %}
+ <h3 class="my-2">Aucune Filiere</h3>
+{% endif %}
+
+  <div class="d-grid gap-2">
+    <a class="btn btn-primary" href="{% url 'newFiliere' %}">Ajouter nouvelle session</a>
+  </div>
+
+</div>
+
+{% endblock content %}

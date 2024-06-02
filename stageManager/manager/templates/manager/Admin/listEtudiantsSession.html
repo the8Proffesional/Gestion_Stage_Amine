@@ -1,0 +1,50 @@
+{% extends 'manager/base.html' %} 
+{% load static %}
+{% block content %}
+
+<div class="form container">
+  <h3 class="text-light bg-danger p-2">Espace Admin</h3>
+  <h4>Liste Etudiants de la {{ niveau }} {{ filiere }} {{ annee }} </h4>
+  <h4>Encadrant : {{ encadrant }} </h4>
+  <ul class="list-group">
+  {% if etudiants %}
+    <table class="table table-info table-striped">
+      <thead>
+        <tr>
+          <th scope="col">CINE</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Prénom</th>
+          <th scope="col">Telephone</th>
+  
+          <th class="d-flex justify-content-center" scope="col">Operations</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for etudiant in etudiants %}
+        <tr>
+          <td>{{ etudiant.username }}</td>
+          <td>{{ etudiant.first_name }}</td>
+          <td>{{ etudiant.last_name }}</td>
+          <td>{{ etudiant.tel }}</td>
+          <td class="d-flex justify-content-center">
+            <a class="mx-2" href="{% url 'listDossiers' niveau filiere annee encadrant prof %}">
+              <img src="{% static 'icons/address-card-solid.svg' %}" alt="Show" width="26">
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  {% else  %}
+  <li class="list-group-item">
+    <h4 class="text-primary">Aucun Etudiant</h4>
+   </li>
+  {%endif%}
+  <!-- Ajout -->
+  <div class="d-grid gap-2 mt-2">
+    <a href="{% url 'updateFiliere' pk %}" class="btn btn-success">Retour</a>
+  </div>
+</div>
+
+{% endblock content %}

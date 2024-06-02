@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <!-- <script
+      src="https://kit.fontawesome.com/fd67ba6a33.js"
+      crossorigin="anonymous"
+    ></script> -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script>
+      function confirmDeletion(event, recordId) {
+        if (!confirm("Voulez-vous vraiment supprimer cet enregistrement ?")) {
+            event.preventDefault();
+        }
+    }
+    </script>
+    <style>
+      body {
+        background-image: url("{% static '2.png' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        box-sizing: border-box;
+      }
+
+      .form {
+        /*max-width: 800px;*/
+        background-color: rgba(199, 226, 250, 0.747);
+        padding:8px 5vw ;
+        margin-top: 16px;
+      }
+      h3 {
+        text-align: center;
+      }
+      .header {
+        /*height: 100px;*/
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        background-color: white;
+        /*margin-top:65px;*/
+      }
+      .htitle {
+        display: flex;
+        background-color: rgba(255, 255, 255, 0.699);
+        justify-content: space-evenly;
+        color: rgb(97, 108, 255);
+        padding: 4px;
+      }
+      .htitle div {
+        padding: 16px;
+      }
+      .info {
+        color: blue;
+        margin-left: 5px;
+      }
+      .edit {
+        color: green;
+        margin-left: 5px;
+      }
+      .delete {
+        color: red;
+        margin-left: 5px;
+      }
+      #deleteForm {
+        display: inline;
+      }
+    </style>
+
+    <title>Site Gestion Stage</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"
+          ><img src="{% static 'Maroc L.png' %}" width="60px"
+        /></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              {% if user is not None and user.is_authenticated %}
+              <a class="btn btn-light form-control" href="{% url 'logout' %}"
+                >Se deconnecter</a
+              >
+              {% else %} {% if register %}
+              <a class="btn btn-light form-control" href="{% url 'index' %}"
+                >S'autentifier</a
+              >
+              {% else %}
+              <a class="btn btn-light form-control" href="{% url 'register' %}"
+                >S'enregistrer</a
+              >
+              {% endif %} {% endif %}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="header container-fluid">
+      <div class="htitle">
+        <div>
+          <h1>GESTION DE STAGE</h1>
+          <p>Bienvenue à votre page officiel de gestion du dossiers Etudiant</p>
+        </div>
+      </div>
+      <img src="{% static 'EST logo.png' %}" with="60px" />
+    </div>
+
+    {% block content %} {% endblock content %}
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
