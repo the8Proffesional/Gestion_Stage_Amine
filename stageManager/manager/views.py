@@ -45,7 +45,7 @@ def filiereEtudiant(request):
     if request.user.is_authenticated and request.user.role == 'ETUDIANT':
         FiliereEtud = StudenttFiliere.objects.filter(Etudiant=request.user)
         context = {'Filieres':FiliereEtud, 'user_name':request.user.username,  'first_name':request.user.first_name, 'last_name':request.user.last_name}
-        return render(request, 'manager/Etudiant/FiliereEtud.html',context = context)
+        return render(request, 'manager/FiliereEtud.html',context = context)
     else:
         return redirect('index')
 
@@ -79,7 +79,7 @@ def newdossier(request, niveau, nom_filier,year, cin):
             url = reverse('home', kwargs={'niveau': niveau, 'nom_filier':nom_filier, 'year':year, 'cin':None})
             return redirect(url)    
         else:
-            return render(request, 'manager/Etudiant/newdossier.html', { 'TypesStage': Dossiers.TYPES , 'domaines': d, 'cin':cin, 'niveau':niveau , 'year':year,  'nom_filier':nom_filier, 'profs':profs })
+            return render(request, 'manager/newdossier.html', { 'TypesStage': Dossiers.TYPES , 'domaines': d, 'cin':cin, 'niveau':niveau , 'year':year,  'nom_filier':nom_filier, 'profs':profs })
     else:
         return redirect('index')
 
@@ -87,7 +87,7 @@ def home(request, niveau, nom_filier,year, cin):
    if request.user.is_authenticated and request.user.role == 'ETUDIANT':
         dossiers = Dossiers.objects.filter(Student =request.user, Niveau=niveau, Nom_filiere=nom_filier, Year=f'{year}-01-01').order_by('Type')
         context = {'dossiers':dossiers, 'user_name':request.user.username,  'first_name':request.user.first_name, 'last_name':request.user.last_name, 'niveau':niveau, 'nom_filier':nom_filier, 'year':year, 'cin':cin}
-        return render(request, 'manager/Etudiant/home.html',context = context)
+        return render(request, 'manager/home.html',context = context)
    else:
         return redirect('index')
 
@@ -123,7 +123,7 @@ def newFiliere(request):
             result=Prof_Filiere.objects.filter(Niveau=data_list[0], Annee=f"{annee}-01-01", filiere=f)
             if result.count() == 0:
                 messages.error(request, f"Cette session pour l'année {annee} n'existe pas essayer avec une  autre année!")
-                return render(request, 'manager/Etudiant/newFiliere.html', {'sessions': sessions})
+                return render(request, 'manager/newFiliere.html', {'sessions': sessions})
             else:
                 try:
                     StudenttFiliere.objects.create(Etudiant=student, Filiere=f, Year=f"{annee}-01-01", Niveau=data_list[0]) 
@@ -159,7 +159,7 @@ def afficherdossier(request, pk):
         d = Dossiers.objects.get(pk=pk)
         checked=d.ValidationProf
         context = { 'dossier':d, 'checked': checked, 'Etudiant':d.Student}
-        return render(request, 'manager/Etudiant/afficherdossier.html', context=context)
+        return render(request, 'manager/afficherdossier.html', context=context)
     
 
 def register(request):
@@ -188,7 +188,7 @@ def register(request):
         
         return redirect('index')
     context = {'register': True, 'SEX':Student.SEX}
-    return render(request, 'manager/Etudiant/enregistrement.html', context=context)
+    return render(request, 'manager/enregistrement.html', context=context)
 
 def deletedossier(request, pk):
     d=Dossiers.objects.get(pk=pk)
@@ -234,7 +234,7 @@ def updatedossier(request, pk):
         data={'prof':pf.prof, 'name':pf.prof.first_name+' '+pf.prof.last_name}
         profs.append(data)
     context = { 'dossier':dossier, 'TypesStage': Dossiers.TYPES , 'domaines': d, 'profs':profs}
-    return render(request, 'manager/Etudiant/updatedossier.html', context=context)
+    return render(request, 'manager/updatedossier.html', context=context)
 
 
 #Prof
@@ -249,7 +249,7 @@ def filiereProf(request):
 
 
         context = {'Filieres':FiliereProfe, 'user_name':request.user.username,  'first_name':request.user.first_name, 'last_name':request.user.last_name, 'Annee':annee}
-        return render(request, 'manager/Prof/FiliereProf.html',context = context)
+        return render(request, 'manager/FiliereProf.html',context = context)
     else:
         return redirect('index')
 
@@ -259,7 +259,7 @@ def etudiantsFiliere(request, niveau, filiere, annee):
         #f=Filiere.objects.get(Nom_filiere=filiere)
         etudiants=Student.student.filter(dossiers__Encadrant=encadrant, dossiers__Niveau=niveau, dossiers__Year=f'{annee}-01-01', dossiers__Nom_filiere=filiere ).distinct()
         context={'etudiants':etudiants, 'filiere':filiere, 'niveau':niveau, 'user_name':request.user.username, 'annee':annee,  'first_name':request.user.first_name, 'last_name':request.user.last_name }
-        return render(request, 'manager/Prof/etudiantsFiliere.html',context = context)
+        return render(request, 'manager/etudiantsFiliere.html',context = context)
     else:
         return redirect('index')
 
@@ -269,7 +269,7 @@ def homeProf(request, niveau, nom_filier, annee, cin):
         encadrant=request.user.first_name+' '+request.user.last_name
         dossiers = Dossiers.objects.filter(Student =e, Niveau=niveau, Year=f'{annee}-01-01', Encadrant=encadrant,  Nom_filiere=nom_filier).order_by('Type')
         context = {'dossiers':dossiers, 'user_name':e.username,  'first_name':e.first_name, 'last_name':e.last_name, 'niveau':niveau, 'annee':annee, 'nom_filier':nom_filier, 'role':request.user.role }
-        return render(request, 'manager/Prof/homeProf.html',context = context)
+        return render(request, 'manager/homeProf.html',context = context)
     else:
         return redirect('index')
 
@@ -282,7 +282,7 @@ def filieresAdmin(request):
         for filiere in filieres:
             cs.append({'filiere' :filiere, 'number':Prof_Filiere.objects.filter(filiere=filiere).count()})
         context={'filieres':cs, 'user_name':request.user.username,  'first_name':request.user.first_name, 'last_name':request.user.last_name}
-        return render(request, 'manager/Admin/filiereAdmin.html', context=context)
+        return render(request, 'manager/filiereAdmin.html', context=context)
   
 def updateFiliere(request, pk):
     if request.user.is_authenticated and request.user.role == 'ADMIN':
@@ -301,9 +301,9 @@ def updateFiliere(request, pk):
                 a=request.POST['Annee']
                 annee=f'{a}-01-01'
                 pfs=Prof_Filiere.objects.filter(filiere=filiere, Annee=annee)
-                return render(request, 'manager/Admin/updateFiliereAdmin.html', {'filiere':filiere, 'Sessions':pfs, 'Annee':a})
+                return render(request, 'manager/updateFiliereAdmin.html', {'filiere':filiere, 'Sessions':pfs, 'Annee':a})
         a=datetime.date.today().year
-        return render(request, 'manager/Admin/updateFiliereAdmin.html', {'filiere':filiere, 'Sessions':pfs, 'Annee':a})
+        return render(request, 'manager/updateFiliereAdmin.html', {'filiere':filiere, 'Sessions':pfs, 'Annee':a})
         
     else:
         return redirect('index')
@@ -317,19 +317,19 @@ def ajoutFilierAdmin(request):
             except IntegrityError:
                 messages.error(request, "Ce Nom de  filière existe déja!")
             return redirect('filiereAdmin')
-        return render(request, 'manager/Admin/ajoutFilierAdmin.html')
+        return render(request, 'manager/ajoutFilierAdmin.html')
     else:
         return redirect('index')      
     
 def listProfs(request):
     if request.user.is_authenticated and request.user.role == 'ADMIN':
         profs=Prof.prof.all()
-        return render(request, 'manager/Admin/listeProfs.html', {'profs':profs})
+        return render(request, 'manager/listeProfs.html', {'profs':profs})
     
 def afficherProf(request, pk):
     if request.user.is_authenticated and request.user.role == 'ADMIN':
         p=Prof.prof.get(pk=pk)
-        return render(request, 'manager/Admin/AfficherProf.html', {'prof':p})
+        return render(request, 'manager/AfficherProf.html', {'prof':p})
 
 def ajoutProf(request):
     if request.user.is_authenticated and request.user.role == 'ADMIN':
@@ -354,7 +354,7 @@ def ajoutProf(request):
             
             if notok:                   
                 context = {'register': True, 'CIN':CIN, 'Nom':Nom, 'prenom':prenom, 'adresse':adresse, 'tel':tel, 'DateN':DateN, 'LieuxN':LieuxN, 'spc':spc}
-                return render(request, 'manager/Admin/ajoutProf.html', context=context)
+                return render(request, 'manager/ajoutProf.html', context=context)
             else:
                 return redirect('listProfs')
          
@@ -389,7 +389,7 @@ def updateProf(request, pk):
            
 
             return redirect('listProfs')
-        return render(request, 'manager/Admin/updateProf.html', {'prof':p})
+        return render(request, 'manager/updateProf.html', {'prof':p})
 
 def deleteProf(request, pk):
     if request.user.is_authenticated and request.user.role == 'ADMIN':
@@ -435,7 +435,7 @@ def updateSession(request, niveau, filiere, annee, prof):
                 url = reverse('updateFiliere', kwargs={'pk': f.pk})
                 return redirect(url)
 
-            return render(request, 'manager/Admin/updateSession.html', {'filiere':f, 'Niveaux':n, 'profs':profs, 'niveau':niveau, 'prof':prof, 'annee':annee})
+            return render(request, 'manager/updateSession.html', {'filiere':f, 'Niveaux':n, 'profs':profs, 'niveau':niveau, 'prof':prof, 'annee':annee})
         else:
             messages.error(request, 'Cette session contient des etudiants! ')
             url = reverse('updateFiliere', kwargs={'pk': f.pk})
@@ -448,7 +448,7 @@ def listEtudiants(request, niveau, filiere, annee, prof):
         
         encadrant=p.first_name+' '+p.last_name
         etudiants=Student.student.filter(dossiers__Encadrant=encadrant, dossiers__Niveau=niveau, dossiers__Year=f'{annee}-01-01', dossiers__Nom_filiere=filiere ).distinct()
-        return render(request, 'manager/Admin/listEtudiantsSession.html', {'pk':f.pk, 'etudiants':etudiants, 'niveau':niveau, 'filiere':filiere, 'annee':annee, 'encadrant':encadrant, 'prof':prof  })
+        return render(request, 'manager/listEtudiantsSession.html', {'pk':f.pk, 'etudiants':etudiants, 'niveau':niveau, 'filiere':filiere, 'annee':annee, 'encadrant':encadrant, 'prof':prof  })
 
 
 
@@ -468,7 +468,7 @@ def deleteFiliere(request, pk):
             for filiere in filieres:
                 sc.append({'filiere':filiere, 'number':Prof_Filiere.objects.filter(filiere=filiere).count()})
             context={'filieres':sc, 'user_name':request.user.username,  'first_name':request.user.first_name, 'last_name':request.user.last_name}
-            return render(request, 'manager/Admin/filiereAdmin.html', context=context)
+            return render(request, 'manager/filiereAdmin.html', context=context)
 
 def newfiliereAdmin(request, pk):
     if request.user.is_authenticated and request.user.role == 'ADMIN':
@@ -491,18 +491,18 @@ def newfiliereAdmin(request, pk):
                 messages.error(request, error_message)
             if notOk:
                 
-                return render(request, 'manager/Admin/newfiliereAdmin.html', {'filiere':f, 'Niveaux':n, 'profs':profs })
+                return render(request, 'manager/newfiliereAdmin.html', {'filiere':f, 'Niveaux':n, 'profs':profs })
             else:
                 
                 url = reverse('updateFiliere', kwargs={'pk': pk})
                 return redirect(url)
-        return render(request, 'manager/Admin/newfiliereAdmin.html', {'filiere':f, 'Niveaux':n, 'profs':profs })
+        return render(request, 'manager/newfiliereAdmin.html', {'filiere':f, 'Niveaux':n, 'profs':profs })
 
 def listDossiers(request, niveau, filiere, annee, encadrant, prof):
     if request.user.is_authenticated and request.user.role == 'ADMIN':
         ds=Dossiers.objects.filter(Nom_filiere=filiere, Niveau=niveau, Year=f'{annee}-01-01', Encadrant=encadrant)
         e=ds.first().Student
-        return render(request, 'manager/Admin/listDossiers.html', {'dossiers':ds, 'niveau':niveau,  'filiere':filiere, 'annee':annee, 'prof':prof, 'etudiant':e })
+        return render(request, 'manager/listDossiers.html', {'dossiers':ds, 'niveau':niveau,  'filiere':filiere, 'annee':annee, 'prof':prof, 'etudiant':e })
     
 
 def afficherDossierAdmin(request, pk, prof):
@@ -519,5 +519,5 @@ def afficherDossierAdmin(request, pk, prof):
             dossier.save()
             url = reverse('listDossiers', kwargs={'niveau': dossier.Niveau, 'filiere': dossier.Nom_filiere, 'annee': dossier.Year.year, 'encadrant': dossier.Encadrant, 'prof':prof } )
             return redirect(url)
-        return render(request, 'manager/Admin/afficherDossierAdmin.html', {'dossier':dossier, 'prof':prof})
+        return render(request, 'manager/afficherDossierAdmin.html', {'dossier':dossier, 'prof':prof})
         
