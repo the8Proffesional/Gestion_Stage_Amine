@@ -129,10 +129,10 @@ def newFiliere(request):
                     StudenttFiliere.objects.create(Etudiant=student, Filiere=f, Year=f"{annee}-01-01", Niveau=data_list[0]) 
                 except IntegrityError:
                     messages.error(request, 'Cette Année universitaire exist déja !')
-                    return render(request, 'manager/Etudiant/newFiliere.html', {'sessions': sessions})
+                    return render(request, 'manager/newFiliere.html', {'sessions': sessions})
             return redirect('FiliereEtud')
         else:
-            return render(request, 'manager/Etudiant/newFiliere.html', {'sessions': sessions})
+            return render(request, 'manager/newFiliere.html', {'sessions': sessions})
     else:
         return redirect('index')
     
@@ -154,7 +154,7 @@ def afficherdossier(request, pk):
         d = Dossiers.objects.get(pk=pk)
         checked=d.ValidationProf
         context = { 'dossier':d, 'checked': checked, 'Etudiant':d.Student, 'niveau': d.Niveau, 'nom_filier':d.Nom_filiere, 'annee':d.Year.year, 'cin':d.Student.username}
-        return render(request, 'manager/Prof/afficherdossierProf.html', context=context)
+        return render(request, 'manager/afficherdossierProf.html', context=context)
     elif request.user.is_authenticated and request.user.role == 'ETUDIANT':
         d = Dossiers.objects.get(pk=pk)
         checked=d.ValidationProf

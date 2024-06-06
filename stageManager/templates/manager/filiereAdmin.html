@@ -14,7 +14,14 @@
   </div>
   {% endfor %}
   {% endif %}
-  <h3>Liste filieres</h3>
+  <div class="row">
+  <div class="col-sm-2 d-grid gap-2 mt-2">
+    <a href="{% url 'listProfs' %}" class="btn btn-success">Professeurs</a>
+  </div>
+  
+  <h3 class="">Liste filieres</h3>
+  </div>
+  
   <ul class="list-group">
     {% if filieres %}
     {% for Filier in filieres %}
@@ -24,9 +31,9 @@
       <!-- Modification Suppression -->
       <div class="d-flex justify-content-center align-items-center ">
       <div class="mx-1">
-        <a class="mx-2 position-relative btn btn-primary" href="{% url 'updateFiliere' Filier.filiere.pk %}">
+        <a class="mx-2 position-relative btn btn-outline-primary" href="{% url 'updateFiliere' Filier.filiere.pk %}">
           <!-- <img src="{% static 'icons/eye-solid.png' %}" alt="edit" width="24"> -->
-          Session >>
+          <img src="{% static 'icons/layer-group-solid.svg'%}" alt="session" width="25">
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             {{Filier.number}}
           </span>
@@ -49,9 +56,7 @@
     </li>
     {%endif%}
   </ul>
-  <div class="d-grid gap-2 mt-2">
-    <a href="{% url 'listProfs' %}" class="btn btn-primary">Professeurs</a>
-  </div>
+
   <!-- Ajout -->
   <div class="d-grid gap-2 mt-2">
     <a href="{% url 'ajoutFilierAdmin' %}" class="btn btn-primary">Ajouter Filiere</a>

@@ -21,11 +21,29 @@
         <input type="text" class="form-control" id="CIN" name="CIN"/>
       </div>
     </div>
-
-    <div class="mb-3 row">
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          var passwordInput = document.getElementById('password');
+          var showPasswordIcon = document.getElementById('showPassword');
+          
+          showPasswordIcon.addEventListener('click', function() {
+              if (passwordInput.type === 'password'){
+                  passwordInput.type = 'text';
+                  showPasswordIcon.classList.remove('eye-slash');
+                  showPasswordIcon.classList.add('eye');
+              } else {
+                  passwordInput.type = 'password';
+                  showPasswordIcon.classList.remove('eye');
+                  showPasswordIcon.classList.add('eye-slash');
+              }
+          });
+      });
+      </script>
+    <div class="pw mb-3 row">
       <label for="inputPassword" class="col-sm-2 col-form-label">Mot de passe</label>
       <div class="col-sm-10">
-        <input type="password" class="form-control" id="inputPassword" name="PW" />
+        <input type="password" class="form-control" id="password" name="PW" />
+        <div class="eye-slash" id="showPassword"></div>
       </div>
     </div>
 

@@ -24,10 +24,14 @@
     {% csrf_token %}
 
     <input type="hidden" name="form_type" value="form1">
-    <div class="mb-3 row">
+    <div class="mb-3 row d-flex justify-content-center align-content-center">
+
         <label for="nomFil" class="col-sm-2 col-form-label">Nom Filiere</label>
-        <div class="col-sm-10">
+        <div class="col-sm-8">
           <input type="text" class="form-control" id="nomFil" name="nomFil" value="{{ filiere.Nom_filiere }}" />
+        </div>
+        <div class="col-sm-2 d-grid">
+          <a href="#" class="btn btn-success">Domaines</a>
         </div>
     </div>
     <div class="d-grid gap-2  my-2">

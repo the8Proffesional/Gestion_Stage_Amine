@@ -74,6 +74,31 @@
       #deleteForm {
         display: inline;
       }
+      .pw {
+        position: relative;
+      }
+
+
+      #showPassword {
+        position: absolute;
+        top:6px;
+        right:25px;
+        float: right;
+        width: 25px;
+        height: 25px;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        opacity: 0.6;
+      }
+      .eye {
+        
+        background-image: url("{% static 'icons/eye-regular.svg' %}");
+        
+      }
+
+      .eye-slash {
+        background-image: url("{% static 'icons/eye-slash-regular.svg' %}");
+      }
     </style>
 
     <title>Site Gestion Stage</title>
