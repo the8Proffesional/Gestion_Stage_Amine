@@ -1,0 +1,77 @@
+
+body {
+  background-image: url("../2.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+}
+
+.form {
+  /*max-width: 800px;*/
+  background-color: rgba(199, 226, 250, 0.747);
+  padding: 8px 5vw;
+  margin-top: 16px;
+}
+h3 {
+  text-align: center;
+}
+.header {
+  /*height: 100px;*/
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: white;
+  /*margin-top:65px;*/
+}
+
+.header img {
+
+}
+.htitle {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.699);
+  justify-content: space-evenly;
+  color: rgb(97, 108, 255);
+  padding: 4px;
+}
+.htitle div {
+  padding: 16px;
+}
+.info {
+  color: blue;
+  margin-left: 5px;
+}
+.edit {
+  color: green;
+  margin-left: 5px;
+}
+.delete {
+  color: red;
+  margin-left: 5px;
+}
+#deleteForm {
+  display: inline;
+}
+.pw {
+  position: relative;
+}
+
+#showPassword {
+  position: absolute;
+  top: 6px;
+  right: 25px; 
+  /* float: right; */
+  width: 25px;
+  height: 25px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.eye {
+  background-image: url("../icons/eye-regular.svg");
+}
+
+.eye-slash {
+  background-image: url("../icons/eye-slash-regular.svg");
+}

@@ -1,0 +1,54 @@
+{% extends 'manager/base.html' %} 
+{% load static %}
+{% block content %}
+<div class="form container">
+    <h3>Domaines pour la filière</h3>
+    <h3>{{ Filiere.Nom_filiere }}</h3>
+    <form action="{% url 'domainesAdmin' Filiere.Nom_filiere %}" method="post">
+    {% csrf_token %}
+    <div class="mb-3 row">
+        <label for="domaine" class="col-sm-2 col-form-label">Domaine</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="domaine" name="domaine"/>
+        </div>
+        <div class="col-sm-2">
+          <button class="btn btn-primary" type="submit">Ajouter Domaine</button>
+        </div>
+    </div>
+    </form>
+      <ul class="list-group">
+        {% if domaines %}
+        {% for domaine in domaines %}
+        <li class="d-flex justify-content-between list-group-item">
+          
+          <div>{{ domaine.NomDomaine }}</div>
+          <!-- Modification Suppression -->
+
+          <div class="d-flex justify-content-center align-items-center ">
+          <form action="{% url 'deleteDomaine' Filiere.Nom_filiere domaine.pk %}" method="post">
+            {% csrf_token %}
+            <button class="mx-1 btn btn-outline "  type="submit" onclick="confirmDeletion(event)">
+              <img src="{% static 'icons/trash-solid.png' %}" alt="delete" width="20">
+            </button>
+          </form>
+
+        </div>
+
+        </li>
+    
+        {%endfor%}
+    
+        {% else %}
+        <li class="list-group-item">
+          <h4 class="text-primary">Pas de Domaines</h4>
+        </li>
+        {%endif%}
+      </ul>
+
+      <div class="d-grid gap-2 my-2">
+        <a class="btn btn-success" href="{% url 'updateFiliere' Filiere.pk  %}" >Retour</a>
+      </div>
+
+
+</div>
+{% endblock content %}

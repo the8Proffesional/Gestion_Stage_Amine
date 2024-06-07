@@ -31,29 +31,19 @@
         <td>{{ Filier.Filiere.Nom_filiere }}</td>
         <td>{{ Filier.Year.year }}</td>
 
-        <td class="d-flex justify-content-center">
-          <a class="mx-2" href="{% url 'newdossier' Filier.Niveau Filier.Filiere.Nom_filiere Filier.Year.year user_name %}">
+        <td class="d-flex align-items-center justify-content-center">
+          <a class=" btn btn-outline" href="{% url 'newdossier' Filier.Niveau Filier.Filiere.Nom_filiere Filier.Year.year user_name %}">
             <img src="{% static 'icons/folder-plus-solid.svg' %}" alt="Add folder" width="30">
           </a>
-          <a class="mx-2" href="{% url 'home' Filier.Niveau Filier.Filiere.Nom_filiere Filier.Year.year user_name %}">
+          <a class="mx-1 btn btn-outline" href="{% url 'home' Filier.Niveau Filier.Filiere.Nom_filiere Filier.Year.year user_name %}">
             <img src="{% static 'icons/folder-open-solid.svg' %}" alt="Show" width="24">
           </a>
 
-          <form
-            method="post"
-            id="deleteForm"
-            action="{% url 'deleteFilier' Filier.Filiere.pk Filier.Niveau Filier.Year.year  %}">
+          <form method="post" action="{% url 'deleteFilier' Filier.Filiere.pk Filier.Niveau Filier.Year.year  %}">
             {% csrf_token %}
-            <a class="mx-2" type="button" onclick="confirmDelete()"
-              ><img src="{% static 'icons/trash-solid.png' %}" alt="Show" width="24"></a>
-
-              <script>
-                function confirmDelete() {
-                  if (confirm("Êtes-vous sûr de vouloir supprimer cet objet ?")) {
-                      document.getElementById("deleteForm").submit();
-                  }
-                }
-              </script>
+            <button class=" btn btn-outline" type="submit" onclick="confirmDeletion(event)">
+              <img src="{% static 'icons/trash-solid.png' %}" alt="Show" width="24">
+            </button>
           </form>  
         </td>
     </tr>

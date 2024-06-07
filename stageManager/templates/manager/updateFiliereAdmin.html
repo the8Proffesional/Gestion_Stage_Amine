@@ -31,7 +31,7 @@
           <input type="text" class="form-control" id="nomFil" name="nomFil" value="{{ filiere.Nom_filiere }}" />
         </div>
         <div class="col-sm-2 d-grid">
-          <a href="#" class="btn btn-success">Domaines</a>
+          <a href="{% url 'domainesAdmin' filiere.Nom_filiere %}" class="btn btn-success">Domaines</a>
         </div>
     </div>
     <div class="d-grid gap-2  my-2">

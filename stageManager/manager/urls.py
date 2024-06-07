@@ -50,6 +50,8 @@ urlpatterns = [
     path("newfiliereAdmin/<int:pk>", views.newfiliereAdmin, name="newfiliereAdmin"),
     path('deleteSession/<int:id>', views.deleteSession, name='deleteSession'),
     path('updateSession/<str:niveau>/<str:filiere>/<int:annee>/<str:prof>', views.updateSession, name='updateSession'),
+    path('domainesFilière/<str:nomFiliere>', views.domainesAdmin, name="domainesAdmin"),
+    path('deleteDomaine/<str:nomFiliere>/<int:pk>', views.deleteDomaine, name='deleteDomaine')
 ]
 
 

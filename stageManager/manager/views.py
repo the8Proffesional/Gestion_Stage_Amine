@@ -520,4 +520,24 @@ def afficherDossierAdmin(request, pk, prof):
             url = reverse('listDossiers', kwargs={'niveau': dossier.Niveau, 'filiere': dossier.Nom_filiere, 'annee': dossier.Year.year, 'encadrant': dossier.Encadrant, 'prof':prof } )
             return redirect(url)
         return render(request, 'manager/afficherDossierAdmin.html', {'dossier':dossier, 'prof':prof})
+
+def domainesAdmin(request, nomFiliere):
+    if request.user.is_authenticated and request.user.role == 'ADMIN':
+        f=Filiere.objects.get(Nom_filiere=nomFiliere)
+        if request.method ==  'POST':
+            domaine=request.POST['domaine']    
+            Domaine.objects.create(NomDomaine=domaine, filiere=f)
+        domaines=Domaine.objects.filter(filiere=f)   
+        context={'Filiere':f, 'domaines':domaines }
+        return render(request, 'manager/domainesAdmin.html', context)
+    
+def deleteDomaine(request,nomFiliere, pk):
+    if request.user.is_authenticated and request.user.role == 'ADMIN':
+        if request.method == 'POST':
+            d=Domaine.objects.get(pk=pk)
+            d.delete()
+        f=Filiere.objects.get(Nom_filiere=nomFiliere)
+        domaines=Domaine.objects.filter(filiere=f)   
+        context={'Filiere':f, 'domaines':domaines }
+        return render(request, 'manager/domainesAdmin.html', context)
         
