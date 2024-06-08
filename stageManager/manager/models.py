@@ -1,7 +1,7 @@
 from typing import Iterable
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
-
+import os
 
 
 class User(AbstractUser):
@@ -69,6 +69,12 @@ class Student(User):
     class Meta:
         proxy=True
 
+def pdf1_upload_to(instance, filename):
+    return os.path.join('rapports', f'{instance.Student.username}', filename)
+
+def pdf2_upload_to(instance, filename):
+    return os.path.join('dossiers', f'{instance.Student.username}', filename)
+
 class Dossiers(models.Model):
     TYPES = (
         ("1", "Stage d'initiation"),
@@ -82,8 +88,8 @@ class Dossiers(models.Model):
         ('Licence Professionelle', 'Licence Professionelle'),
     )
     Type = models.CharField(max_length=50, choices=TYPES)
-    Rapport = models.CharField(max_length=100, null=False, blank=False)
-    Doss= models.CharField(max_length=100, null=False, blank=False)
+    Rapport = models.FileField(upload_to=pdf1_upload_to)
+    Doss= models.FileField(upload_to=pdf2_upload_to)
     Sujet = models.CharField(max_length=100, null=False, blank=False)
     Encadrant = models.CharField(max_length=100, null=False, blank=False)
     Domaine = models.CharField(max_length=100, null=False, blank=False)

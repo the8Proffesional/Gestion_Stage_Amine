@@ -1,6 +1,6 @@
 {% extends 'manager/base.html' %} {% block content %}
 <div class="form container">
-  <h3>Page d'enregistrement</h3>
+  <h3>Enregistrement etudiant</h3>
   <form action="" method="post">
     {% csrf_token %}
     <div class="mb-3 row">
@@ -101,14 +101,26 @@
       </div>
       {% endif %}
 
-      <div class="mb-3 row">
+        <div class="mb-3 row">
         <div class="col-12">
         <button class="form-control btn btn-primary" type="submit">S'enregistrer</button>
         </div>
+        </div>
+        <div class="col-12">
+ </form>
+        <form action="{% url 'importerEtud' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <label class="form-label form-control my-2" for="excel">importer Etudiants (EXCEL)</label>
+          <input class="form-control my-2" type="file" name="file" id="excel">
+        <button type="submit" class="btn btn-primary form-control my-2">importer</button>
+        </form>
+
+      </div>
+        <div class="col-12">
+          <a class="btn btn-success form-control mt-2" href="{% url 'filiereAdmin' %}">Retour</a>
+        </div>
       </div>
 
-  </form>
-
-  <p>Si Déja enregistré <a href="{% url 'index' %}">Se connecter</a></p>
+ 
 </div>
 {% endblock content %}

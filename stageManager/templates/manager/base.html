@@ -44,11 +44,7 @@
               {% if user is not None and user.is_authenticated %}
               <a class="btn btn-light form-control" href="{% url 'logout' %}">Se deconnecter</a>
               {% else %} 
-              {% if register %}
               <a class="btn btn-light form-control" href="{% url 'index' %}">S'autentifier</a>
-              {% else %}
-              <a class="btn btn-light form-control" href="{% url 'register' %}">S'enregistrer</a>
-              {% endif %} 
               {% endif %}
             </li>
 

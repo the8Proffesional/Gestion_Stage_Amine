@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path
 from .import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     # Login
@@ -14,7 +16,7 @@ urlpatterns = [
     path('newdossier/<str:niveau>/<str:nom_filier>/<int:year>/<str:cin>', views.newdossier, name='newdossier'),
     path('register/', views.register, name='register'),
     path('deleteFilier/<int:pk>/<str:niveau>/<int:year>', views.deleteFilier, name='deleteFilier'),
-    
+    path('afficherPdf/<int:id>/<int:n>', views.viewPdf, name='viewPdf'),
     
     
     #Prof
@@ -40,7 +42,9 @@ urlpatterns = [
     path('listeProfs/', views.listProfs, name='listProfs'),
     path('ajoutProf/', views.ajoutProf, name='ajoutProf'),
     path('updateProf/<int:pk>', views.updateProf, name='updateProf'),
+    path('updateEtud/<int:pk>', views.updateEtud, name='updateEtud'),
     path('deleteProf/<int:pk>', views.deleteProf, name='deleteProf'),
+    path('deleteEtud/<int:pk>', views.deleteEtud, name='deleteEtud'),
     path('afficherProf/<int:pk>', views.afficherProf, name='afficherProf'),
 
     path('listDossiers/<str:niveau>/<str:filiere>/<int:annee>/<str:encadrant>/<str:prof>', views.listDossiers, name='listDossiers'),
@@ -51,7 +55,11 @@ urlpatterns = [
     path('deleteSession/<int:id>', views.deleteSession, name='deleteSession'),
     path('updateSession/<str:niveau>/<str:filiere>/<int:annee>/<str:prof>', views.updateSession, name='updateSession'),
     path('domainesFilière/<str:nomFiliere>', views.domainesAdmin, name="domainesAdmin"),
-    path('deleteDomaine/<str:nomFiliere>/<int:pk>', views.deleteDomaine, name='deleteDomaine')
-]
+    path('deleteDomaine/<str:nomFiliere>/<int:pk>', views.deleteDomaine, name='deleteDomaine'),
+    path('importerEtud', views.importerEtud, name='importerEtud'),
+    path('listEtuds', views.listEtuds, name='listEtuds'),
+    path('afficherEtud/<int:pk>', views.afficherEtud, name='afficherEtud'),
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

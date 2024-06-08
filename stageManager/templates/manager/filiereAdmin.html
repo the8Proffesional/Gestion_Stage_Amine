@@ -15,10 +15,12 @@
   {% endfor %}
   {% endif %}
   <div class="row">
-  <div class="col-sm-2 d-grid gap-2 mt-2">
-    <a href="{% url 'listProfs' %}" class="btn btn-success">Professeurs</a>
+  <div class="col-sm-12 d-flex mt-2">
+    <a href="{% url 'listProfs' %}" class="btn btn-success form-control ">Professeurs...</a>
+    <a class="btn btn-success form-control mx-2" href="{% url 'listEtuds' %}">Etudiants...</a>
   </div>
   
+
   <h3 class="">Liste filieres</h3>
   </div>
   

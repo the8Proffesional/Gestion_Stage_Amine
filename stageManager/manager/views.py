@@ -6,6 +6,10 @@ from django.contrib import messages
 from django.urls import reverse
 import datetime
 from django.db.models import Count
+import pandas  as pd
+
+
+
 # Login
 #-----------
 
@@ -61,8 +65,8 @@ def newdossier(request, niveau, nom_filier,year, cin):
         ds=Dossiers.objects.filter(Student=request.user, Niveau=niveau)
         if request.method=='POST':
             typ = request.POST['Type']
-            rapport=request.POST['Rapport']
-            dossier=request.POST['Dossier']
+            rapport=request.FILES['Rapport']
+            dossier=request.FILES['Dossier']
             sujet=request.POST['Sujet']
             encadrant=request.POST['Encadrant']
             domaine=request.POST['Domaine']
@@ -160,7 +164,11 @@ def afficherdossier(request, pk):
         checked=d.ValidationProf
         context = { 'dossier':d, 'checked': checked, 'Etudiant':d.Student}
         return render(request, 'manager/afficherdossier.html', context=context)
-    
+
+
+def viewPdf(request, id, n):
+    pdf = Dossiers.objects.get(id=id)
+    return render(request, 'manager/viewPdf.html', {'pdf': pdf, 'n':n})
 
 def register(request):
     if request.method =='POST':
@@ -184,9 +192,9 @@ def register(request):
             context = {'register': True, 'erreur':erreur, 'Napog':Napog, 'CIN':CIN, 'CNE':CNE, 'Nom':Nom, 'prenom':prenom,'adresse':adresse, 'tel':tel, 'DateN':DateN, 'LieuxN':LieuxN, 'SEX':Student.SEX}
             return render(request, 'manager/enregistrement.html', context=context)
     
-        Student.objects.create_user(Napog=Napog, username=CIN, CNE=CNE, Sex=SEX, first_name=Nom, last_name=prenom, adresse=adresse,  tel=tel, dateN=DateN, lieuxN=LieuxN, password=pw1)
+        Student.objects.create_user(Napog=Napog, username=CIN, CNE=CNE, Sex=SEX, first_name=prenom, last_name=Nom, adresse=adresse,  tel=tel, dateN=DateN, lieuxN=LieuxN, password=pw1)
         
-        return redirect('index')
+        return redirect('listEtuds')
     context = {'register': True, 'SEX':Student.SEX}
     return render(request, 'manager/enregistrement.html', context=context)
 
@@ -540,4 +548,84 @@ def deleteDomaine(request,nomFiliere, pk):
         domaines=Domaine.objects.filter(filiere=f)   
         context={'Filiere':f, 'domaines':domaines }
         return render(request, 'manager/domainesAdmin.html', context)
-        
+
+def listEtuds(request):
+    if request.user.is_authenticated and request.user.role == 'ADMIN':
+        etuds=Student.student.all()
+        return render(request, 'manager/listeEtuds.html', {'etuds':etuds})
+
+def afficherEtud(request, pk):
+    if request.user.is_authenticated and request.user.role == 'ADMIN':
+        e=Student.student.get(pk=pk)
+        return render(request, 'manager/AfficherEtud.html', {'Etudiant':e})
+
+def updateEtud(request, pk):
+    if request.user.is_authenticated and request.user.role == 'ADMIN':
+        e=Student.student.get(pk=pk)
+        if request.method =='POST':
+
+            Napoge=request.POST['Napog']
+            CIN=request.POST['CIN']
+            CNE=request.POST['CNE']
+            sex=request.POST['Sex']
+            Nom=request.POST['Nom']
+            prenom=request.POST['prenom']
+            adresse=request.POST['adresse']
+            tel=request.POST['tel']
+            DateN=request.POST['DateN']
+            LieuxN=request.POST['LieuxN']
+
+            e.Napog=Napoge
+            e.username=CIN
+            e.CNE=CNE
+            e.first_name=prenom
+            e.last_name=Nom
+            e.Sex=sex
+            e.adresse=adresse
+            e.tel=tel
+            e.dateN=DateN
+            e.lieuxN=LieuxN
+            e.save() 
+           
+
+            return redirect('listEtuds')
+        return render(request, 'manager/updateEtud.html', {'Etudiant':e})
+
+
+def importerEtud(request):
+    if request.user.is_authenticated and request.user.role == 'ADMIN':
+        if request.method == "POST" and request.FILES['file']:
+            excel_file = request.FILES['file']
+            try:
+                df = pd.read_excel(excel_file)
+
+                for index, row in df.iterrows():
+                    Student.objects.create_user(
+                    Napog=row['N Apog'],
+                    username=row['CIN'],
+                    CNE=row['CNE'],
+                    Sex=row['SEX'],
+                    last_name=row['NOM'],
+                    first_name=row['PRENOM'],
+                    adresse=row['ADRESSE'],
+                    tel=row['TEL'],
+                    dateN=row['DATE Naissance'],
+                    lieuxN=row['Lieux Naissance'],
+                    password=row['mot de passe']
+                    )
+                redirect('listEtuds')
+            except Exception as e:
+
+                messages.error(request, f'Error importing data: {e}')
+            etuds=Student.student.all()
+            return render(request, 'manager/listeEtuds.html', {'etuds':etuds})
+
+
+def deleteEtud(request, pk):
+    if request.user.is_authenticated and request.user.role == 'ADMIN':
+        fetuds=StudenttFiliere.objects.filter(Etudiant__pk=pk)
+        for fetud in fetuds:
+            fetud.delete()
+        e=Student.student.get(pk=pk)
+        e.delete()
+        return redirect('listEtuds')
