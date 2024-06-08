@@ -21,10 +21,8 @@
       
       <div class="input-group col-sm-10">
         <input type="text" class="form-control" id="Rapport" name="Rapport" value="{{ dossier.Rapport }}" disabled/>
-        <a class="btn btn-outline-success" type="button" href="{% url 'viewPdf' dossier.id 1 %}">Ouvrir</a>
+        <a target="_blank" class="btn btn-outline-success" type="button" href="{% url 'viewPdf' dossier.id 1 %}">Ouvrir</a>
       </div>
-
-   
     </div>
 
     <div class="mb-3 row">
@@ -33,7 +31,7 @@
 
       <div class="input-group col-sm-10">
         <input type="text" class="form-control" id="Dossier" name="Dossier" value="{{ dossier.Doss }}" disabled/>
-        <a class="btn btn-outline-success" type="button" href="{% url 'viewPdf' dossier.id 2 %}">Ouvrir</a>
+        <a target="_blank" class="btn btn-outline-success" type="button" href="{% url 'viewPdf' dossier.id 2 %}">Ouvrir</a>
       </div>
       
     </div>

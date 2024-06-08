@@ -368,7 +368,7 @@ def ajoutProf(request):
          
         else:                       
             context = {'register': True }
-            return render(request, 'manager/Admin/ajoutProf.html', context=context)
+            return render(request, 'manager/ajoutProf.html', context=context)
 
 def updateProf(request, pk):
     if request.user.is_authenticated and request.user.role == 'ADMIN':
@@ -415,7 +415,7 @@ def deleteSession(request, id):
             ps=Prof_Filiere.objects.get(id=id)
             pk=ps.filiere.pk
             es=StudenttFiliere.objects.filter(Niveau=ps.Niveau, Filiere=ps.filiere, Year=ps.Annee)
-            if es.count()==0:
+            if es.count() == 0:
                 ps.delete()
             else:
                 messages.error(request, 'Cette session contient des etudiants! ')

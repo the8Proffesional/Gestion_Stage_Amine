@@ -83,7 +83,7 @@
 
               <form action="{% url 'deleteSession' session.id %}" method="post">
                 {% csrf_token %}
-                <button class="btn btn-outline" type="submit" onclick="confirmDeletion(event, '{{ session.id }}')">
+                <button class="btn btn-outline" type="submit" onclick="confirmDeletion(event)">
                   <img src="{% static 'icons/trash-solid.png' %}" alt="delete" width="20">
                 </button>
               </form>

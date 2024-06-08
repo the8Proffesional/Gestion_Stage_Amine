@@ -2,19 +2,17 @@
 {% load static %}
 {% block content %}
 
-<div class="form container">
+<div class="form  container">
   <h3 class="text-light bg-danger p-2">Espace Admin</h3>
   <h3>Liste Professeurs</h3>
   <ul class="list-group">
   {% if profs %}
-    <table class="table table-info table-striped">
+    <table class="table-responsive table-info table-striped">
       <thead>
         <tr>
           <th scope="col">CINE</th>
-          <th scope="col">Nom</th>
-          <th scope="col">Prénom</th>
+          <th scope="col">Nom complet</th>
           <th scope="col">Telephone</th>
-          <th scope="col">Spécialité</th>
           <th class="d-flex justify-content-center" scope="col">Operations</th>
         </tr>
       </thead>
@@ -22,10 +20,8 @@
         {% for prof in profs %}
         <tr>
           <td>{{ prof.username }}</td>
-          <td>{{ prof.first_name }}</td>
-          <td>{{ prof.last_name }}</td>
+          <td>{{ prof.last_name }} {{ prof.first_name }}</td>
           <td>{{ prof.tel }}</td>
-          <td>{{ prof.SPC }}</td>
           <td class="d-flex justify-content-center align-items-center">
             <a class="mx-2" href="{% url 'afficherProf' prof.pk %}">
               <img src="{% static 'icons/eye-solid.png' %}" alt="Show" width="20">
@@ -38,17 +34,10 @@
               <button   type="submit" class="btn btn-outline mx-2" onclick="confirmDeletion(event, '{{ prof.id }}')">
                 <img src="{% static 'icons/trash-solid.png' %}" alt="Delete" width="20">
               </button>
-              
             </form>
-            
           </td>
         </tr>
-        
-        {% endfor %}
-  
-        
-  
-  
+        {% endfor %} 
       </tbody>
     </table>
   {% else  %}

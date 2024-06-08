@@ -25,10 +25,15 @@
           <td>{{ etudiant.username }}</td>
           <td>{{ etudiant.first_name }}</td>
           <td>{{ etudiant.last_name }}</td>
-          <td>{{ etudiant.tel }}</td>
-          <td class="d-flex justify-content-center">
-            <a class="mx-2" href="{% url 'listDossiers' niveau filiere annee encadrant prof %}">
-              <img src="{% static 'icons/address-card-solid.svg' %}" alt="Show" width="26">
+          <td>
+            {{ etudiant.tel }}
+            <a class="btn mx-1" href="whatsapp://send?phone=212{{etudiant.tel}}">
+               <img src="{% static 'icons/square-whatsapp.svg' %}" alt="Show" width="26">
+            </a>
+          </td>
+          <td class="d-flex align-items-center justify-content-center">
+            <a class="btn m-1" href="{% url 'listDossiers' niveau filiere annee encadrant prof %}">
+              <img src="{% static 'icons/address-card-solid.svg' %}" alt="Show" width="30">
             </a>
           </td>
         </tr>
