@@ -29,7 +29,7 @@
         <th scope="col">Niveau</th>
         <th scope="col">Filière</th>
         <th scope="col">Année universitaire</th>
-        <th class="d-flex justify-content-center" scope="col">Operations</th>
+        <th class="d-flex justify-content-center pb-sm-5 pb-lg-2" scope="col">Operations</th>
       </tr>
     </thead>
     <tbody>
@@ -39,7 +39,7 @@
         <td>{{ Filier.filiere.Nom_filiere }}</td> 
         <td>{{ Filier.Annee.year }}</td>
         
-        <td class="d-flex justify-content-center">
+        <td class="d-flex justify-content-center pb-sm-4 pb-lg-2">
           <a class="mx-3" href="{%url 'etudiantsFil' Filier.Niveau Filier.filiere.Nom_filiere Filier.Annee.year %}">
             <img src="{% static 'icons/users-solid.svg' %}" alt="Show" width="30">
           </a>

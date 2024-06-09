@@ -8,10 +8,10 @@
       <input type="hidden" name="form_type" value="form2">
       <div class="mb-3 row">
         <label for="Annee" class="col-sm-2 col-form-label">Anneé Universitaire</label>
-        <div class="col-sm-8">
+        <div class="col-sm-7">
           <input type="number" class="form-control bg-warning" id="Annee" value="{{ Annee }}" name="Annee" />  
         </div>
-         <div  class="col-sm-2">
+         <div  class="col-sm-3">
           <button class=" form-control btn btn-info" type="submit">Filtrer</button>
         </div>
       </div>
@@ -24,16 +24,17 @@
     {% csrf_token %}
 
     <input type="hidden" name="form_type" value="form1">
-    <div class="mb-3 row d-flex justify-content-center align-content-center">
+    <div class="mb-3 row">
 
         <label for="nomFil" class="col-sm-2 col-form-label">Nom Filiere</label>
-        <div class="col-sm-8">
+        <div class="col-sm-7">
           <input type="text" class="form-control" id="nomFil" name="nomFil" value="{{ filiere.Nom_filiere }}" />
         </div>
-        <div class="col-sm-2 d-grid">
-          <a href="{% url 'domainesAdmin' filiere.Nom_filiere %}" class="btn btn-success">Domaines</a>
+        <div class="col-sm-3">
+          <a href="{% url 'domainesAdmin' filiere.Nom_filiere %}" class="form-control btn btn-success">Domaines</a>
         </div>
     </div>
+    
     <div class="d-grid gap-2  my-2">
       <button class="btn btn-primary" type="submit">Enregistrer</button>
     </div>
@@ -62,7 +63,7 @@
             <th scope="col">CINE</th>
             <th scope="col">Niveau</th>
             <th scope="col">Année Universitaire</th>
-            <th class="d-flex justify-content-center" scope="col">Operations</th>
+            <th class="d-flex justify-content-center py-sm-4 py-lg-2" scope="col">Operations</th>
           </tr>
         </thead>
         <tbody>
@@ -72,7 +73,7 @@
             <td>{{ session.prof.username }}</td>
             <td>{{ session.Niveau }}</td>
             <td>{{ session.Annee.year }}</td>
-            <td class="d-flex justify-content-center align-items-center">
+            <td class="d-flex justify-content-center align-items-center py-sm-4 py-lg-1">
               <a class="mx-2" href="{% url 'listEtudiants' session.Niveau filiere.Nom_filiere session.Annee.year session.prof.username  %}">
                 <img src="{% static 'icons/users-solid.svg' %}" alt="Show" width="24">
               </a>

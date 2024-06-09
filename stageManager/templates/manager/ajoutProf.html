@@ -71,10 +71,13 @@
 
       <div class="mb-3 row">
         <div class="col-12">
-        <button class="form-control btn btn-primary" type="submit">S'enregistrer</button>
+        <button class="form-control btn btn-primary" type="submit">Ajouter Professeur</button>
         </div>
       </div>
 
   </form>
+  <div class="d-grid gap-2 mt-2">
+    <a href="{% url 'listProfs' %}" class="btn btn-success">Retour</a>
+  </div>
 </div>
 {% endblock content %}

@@ -110,14 +110,14 @@
  </form>
         <form action="{% url 'importerEtud' %}" method="post" enctype="multipart/form-data">
           {% csrf_token %}
-          <label class="form-label form-control my-2" for="excel">importer Etudiants (EXCEL)</label>
+          <label class="form-label form-control my-2 bg-success fw-bold text-light " for="excel">importer Etudiants (EXCEL)</label>
           <input class="form-control my-2" type="file" name="file" id="excel">
         <button type="submit" class="btn btn-primary form-control my-2">importer</button>
         </form>
 
       </div>
         <div class="col-12">
-          <a class="btn btn-success form-control mt-2" href="{% url 'filiereAdmin' %}">Retour</a>
+          <a class="btn btn-success form-control mt-2" href="{% url 'listEtuds' %}">Retour</a>
         </div>
       </div>
 

@@ -23,26 +23,30 @@
           <td>{{ etud.username }}</td>
           <td>{{ etud.last_name }}</td>
           <td>{{ etud.first_name }}</td>
-          <td>
+          <td class="justify-content-center">
             {{ etud.tel }}
-            <a class="btn mx-1" href="whatsapp://send?phone=212{{etud.tel}}">
+            <a class="btn me-1" href="whatsapp://send?phone=212{{etud.tel}}">
                <img src="{% static 'icons/square-whatsapp.svg' %}" alt="Show" width="26">
             </a>
             </td>
-          <td class="d-flex justify-content-center align-items-center">
-            <a class="btn mx-2" href="{% url 'afficherEtud' etud.pk %}">
+
+          <td class="d-flex flex-row justify-content-center">
+
+            <a class="btn" href="{% url 'afficherEtud' etud.pk %}">
               <img src="{% static 'icons/eye-solid.png' %}" alt="Show" width="20">
             </a>
-            <a class="btn m-1" href="{% url 'updateEtud' etud.pk %}">
+
+            <a class="btn m-1 mb-sm-5 mb-lg-1" href="{% url 'updateEtud' etud.pk %}">
               <img src="{% static 'icons/pen-solid.png' %}" alt="Show" width="20">
             </a>
 
             <form   action="{% url 'deleteEtud' etud.id %}" method="post">
               {% csrf_token %}
-              <button   type="submit" class="btn btn-outline mx-2" onclick="confirmDeletion(event)">
+              <button   type="submit" class="btn btn-outline" onclick="confirmDeletion(event)">
                 <img src="{% static 'icons/trash-solid.png' %}" alt="Delete" width="20">
               </button>
             </form>
+
           </td>
         </tr>
         
